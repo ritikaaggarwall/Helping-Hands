@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="postservice.css">
+</head>
+<style>
+    *{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url('bg-image.jpg') no-repeat;
+    /* backdrop-filter: blur(2px); */
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+} 
+.wrapper{
+    position: relative;
+    width: 600px;
+    height: 720px;
+    background: transparent;
+    border-radius: 20px;
+    backdrop-filter: blur(55px);
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: height .2s ease;
+    filter:brightness(120%);
+}
+.wrapper .form-box{
+    width: 100%;
+    padding: 40px;
+    
+}
+.wrapper .form-box.login{
+    transition: transform .18s ease;
+    transform: translateX(0);
+}
+.wrapper.active .form-box.login{
+    transition: none;
+    transform: translateX(-400px);
+}
+.wrapper .form-box.register{
+    position: absolute;
+    transition:none;
+    transform: translateX(400px);
+}
+.wrapper.active .form-box.register{
+    transition: transform .18s ease;
+    transform: translateX(0)
+}
+.wrapper .icon-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background: black;
+    font-size: 2em;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+.form-box h2{
+    font-size: 2.3rem;
+    color:black;
+    text-align: center;
+}
+.input-box{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid  black;
+    margin: 20px 0;
+}
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color:  black;
+    font-weight: 500;
+    pointer-events: none;
+    transition: .5s;
+}
+.input-box input:focus~label,
+.input-box input:valid~label{
+    top: -5px;
+}
+.input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.3rem;
+    color: black;
+    font-weight: 600;
+    padding: 0 35px 0 5px;
+}
+.input-box .icon{
+    position: absolute;
+    right: 8px;
+    font-size: 1.3rem;
+    color:  black;
+    line-height: 57px;
+}
+.remember-forgot{
+    font-size: 1.3rem;
+    color:  black;
+    font-weight: 500;   
+    margin: -15px 0 15px;
+    /* display: flex;
+    justify-content: space-between; */
+}
+.remember-forgot label input{
+    accent-color:  black;
+    margin-right: 3px;
+    margin-top:1rem;
+}
+.remember-forgot a{
+    color:  black;
+    text-decoration: none;
+}
+.remember-forgot p{
+    font-size:1.3rem;
+}
+.remember-forgot a:hover{
+    text-decoration: underline;
+}
+.btn{
+    width: 100%;
+    height: 45px;
+    background:  #a3a6b9;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.btn #myPopup{
+    color: black;
+}
+.login-register{
+    font-size: 1.3rem;
+    color:  black;
+    text-align: center;
+    font-weight: 500;
+    margin: 25px 0 10px;
+}
+.login-register p a{
+    color:  black;
+    text-decoration: none;
+    font-weight: 600;
+}
+.login-register p a:hover{
+    text-decoration: underline;
+}
+/* Popup container */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+.wrapper .icon-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background: transparent;
+    font-size: 2em;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+</style>
+<body>
+    <div class="wrapper">
+        <a href="index.html"><span class="icon-close">
+            <ion-icon name="close"></ion-icon>
+        </span></a>
+        <div class="form-box login">
+            <h2>Book Your Service Here!!</h2>
+            <form action="https://formsubmit.co/033fe42d5f9522f897b5b21e19ea0d8e" method="POST" onsubmit="signIn(event);">
+                <div class="input-box">
+                    <input class="input" type="name" id="name" required>
+                    <label>Name*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="text" id="Service" required>
+                    <label>Service Required*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="date" id="date" required>
+                    <!-- <label>Date*</label> -->
+                </div>
+                <div class="input-box">
+                    <input class="input" type="text" id="hours" required>
+                    <label>Serving Time*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="tel" id="phone" required>
+                    <label>Phone Number*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="text" id="address" required>
+                    <label>Address*</label>
+                </div>
+              
+                <br>
+                <div class="remember-forgot">
+                    <p>Select Payment Option*</p>
+                    <label ><input type="radio" id="cbox2" name="option">Cash</label>
+                    <label ><input type="radio" id="cbox2" name="option">UPI/Online payment</label>
+                </div>
+                <div class="remember-forgot">
+                    <label ><input type="checkbox" id="cbox2" required>I agree to the terms and conditions*</label>
+                </div>
+
+                <button class="btn" onclick="myFunction()" id="myPopup"><a href="book.html" href="mailto:" style="text-decoration: none; color: black;">Book Now</a></button>
+                    
+           </div>            
+            </form>
+        </div>
+    </div>
+
+    <!-- <script>
+        // When the user clicks on <div>, open the popup
+        function myFunction() {
+          var popup = document.getElementById("myPopup");
+          popup.classList.toggle("show");
+        }
+        </script> -->
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

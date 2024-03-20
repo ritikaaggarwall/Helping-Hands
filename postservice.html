@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="postservices.css">
+</head>
+<body>
+    <div class="wrapper">
+        <a href="index.html"><span class="icon-close">
+            <ion-icon name="close"></ion-icon>
+        </span></a>
+        <div class="form-box login">
+            <h2>Enter your details</h2>
+            <form id="jobApplicationForm">
+                <div class="input-box">
+                    <input class="input" type="text" id="name1" required>
+                    <label>Name*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="number" id="age1" required>
+                    <label>Age*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="tel" id="phone1" required>
+                    <label>Phone Number*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="text" id="profession1" required>
+                    <label>Work you are applying for*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="text" id="salary1" required>
+                    <label>Salary requirements*</label>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="file" id="upload1" name="upload" style="border-bottom: none;" required><br>
+                    <!-- <p style="margin-top:1rem;border-bottom:none;">Upload Documents for Verification</p> -->
+                </div>
+                <br>
+                <div class="remember-forgot">
+                    <p>Would you be able to relocate to work in Chandigarh?*</p>
+                    <label><input type="radio" name="relocate" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="relocate" value="No" required> No</label>
+                </div>
+
+                <div class="remember-forgot">
+                    <label><input type="checkbox" id="termsCheckbox1" required> I agree to the terms and conditions*</label>
+                </div>
+                <button type="submit" class="btn" id="post" class="login-link">Post Job</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const wrapper=document.querySelector('.wrapper');
+
+        const loginLink=document.querySelector('.login-link');
+
+        const registerLink=document.querySelector('.register-link');
+
+        registerLink.addEventListener('click',()=>{wrapper.classList.add('active')});
+
+        loginLink.addEventListener('click',()=>{wrapper.classList.remove('active')});
+        const signUp = e => {
+            let checkbox = document.querySelector("#cbox2")
+            let fname = document.getElementById('user1').value,
+                age = document.getElementById('age1').value,
+                phone = document.getElementById('phone1').value,
+                salary = document.getElementById('salary1').value;
+
+            let formData = JSON.parse(localStorage.getItem('formData')) || [];
+
+            let exist = formData.length &&
+                JSON.parse(localStorage.getItem('formData')).some(data =>
+                    data.fname.toLowerCase() == fname.toLowerCase()
+                );
+            // if(!checkbox.checked)
+            // alert("Please Accept Terms And Conditions")
+            // else if (!exist) {
+            //     formData.push({ fname, age, phone, salary});
+            //     localStorage.setItem('formData', JSON.stringify(formData));
+            //     window.location.href="index.html";
+            //     alert("Account Created.");
+            // }
+                // else {
+                //     alert("You Have Already Signed Up");
+                //     window.location.href="postservice.html";
+                // }
+                e.preventDefault();
+            }
+            function signIn(e) {
+                e.preventDefault(); 
+                let age = document.getElementById('age1').value,name= document.getElementById('user1').value, phone = document.getElementById('phone1').value, salary = document.getElementById('salary1').value;
+                let formData = JSON.parse(localStorage.getItem('formData')) || [];
+                localStorage.setItem("name",JSON.stringify(name));
+
+                let exist = formData.length && JSON.parse(localStorage.getItem('formData')).some(data => data.phone.toLowerCase() == phone && data.salary.toLowerCase() == salary);
+                if (!exist) {
+                    alert("Please Enter Registered E-mail Id.");
+                }
+                else {
+                    window.location.href="index2.html";
+                    alert("Log In Successful")
+                }
+            }
+    </script>
+   <!-- Your HTML code -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+    import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+              apiKey: "AIzaSyDLjuipsDoXgYJMNIChKCdmL_BLemwXevA",
+            authDomain: "job-portal-db79a.firebaseapp.com",
+            projectId: "job-portal-db79a",
+            storageBucket: "job-portal-db79a.appspot.com",
+            messagingSenderId: "1010437776846",
+            appId: "1:1010437776846:web:178d29c6d4a9a77844f79f",
+            measurementId: "G-QTFHW34CCE"
+            };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    
+    const db = getDatabase(app);
+
+    const jobApplicationForm = document.getElementById("jobApplicationForm");
+    jobApplicationForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const username = document.getElementById('name1').value;
+        const age = document.getElementById('age1').value;
+        const phone = document.getElementById('phone1').value;
+        const profession = document.getElementById('profession1').value;
+        const salary = document.getElementById('salary1').value;
+
+        if (!username.trim() || !age.trim() || !phone.trim() || !profession.trim() || !salary.trim()) {
+            alert("All fields are required!");
+            return;
+        }
+
+        // Proceed with form submission
+        set(ref(db, 'applications/' + username), {
+            name: username,
+            age: age,
+            phone: phone,
+            profession: profession,
+            salary: salary
+        })
+        .then(() => {
+            window.location.href="index.html";
+            alert("Application submitted successfully!");
+        })
+        .catch(error => {
+            console.error("Error submitting application: ", error);
+            alert("Failed to submit application. Please try again later.");
+        });
+    });
+</script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<!-- Remaining parts of your HTML code -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
